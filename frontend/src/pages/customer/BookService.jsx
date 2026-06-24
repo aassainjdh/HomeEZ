@@ -86,59 +86,64 @@ const BookService = () => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[70vh]">
+      <div className="flex flex-col items-center justify-center min-h-[80vh] mesh-gradient-bg">
         <div className="w-10 h-10 border-4 border-primary-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="mt-4 text-sm text-slate-500">Retrieving schedule availability...</p>
+        <p className="mt-4 text-sm text-slate-500 font-semibold">Retrieving schedule availability...</p>
       </div>
     );
   }
 
   if (!service) {
     return (
-      <div className="max-w-md mx-auto py-12 text-center">
+      <div className="max-w-md mx-auto py-16 text-center mesh-gradient-bg">
         <AlertCircle className="mx-auto text-red-500 mb-2" size={32} />
-        <p>Service details not found</p>
+        <p className="font-semibold text-slate-700 dark:text-slate-350">Service details not found</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6 min-h-screen">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 min-h-screen mesh-gradient-bg scene-3d">
+      
+      {/* Back CTA */}
       <button
-        onClick={() => navigate('/')}
-        className="flex items-center space-x-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors"
+        onClick={() => navigate('/services')}
+        className="flex items-center space-x-1.5 text-xs font-bold text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white transition-colors animate-fade-in-up"
       >
         <ArrowLeft size={14} />
         <span>Back to Services</span>
       </button>
 
-      <h1 className="text-3xl font-heading font-extrabold text-slate-900 dark:text-white">Book Appointment</h1>
+      <h1 className="text-3xl sm:text-4xl font-heading font-extrabold text-slate-900 dark:text-white animate-fade-in-up">
+        Book Appointment
+      </h1>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-fade-in-up">
         {/* Left column: Booking form */}
-        <div className="md:col-span-2 bg-white dark:bg-dark-900 p-6 rounded-3xl border border-slate-200/50 dark:border-slate-800/80 shadow-sm space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="md:col-span-2 glass-panel p-6 rounded-[2rem] border border-slate-200/50 dark:border-slate-850 shadow-md space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-5">
             
             {/* Step 1: Select Professional */}
-            <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
+            <div className="space-y-2.5">
+              <label className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-wider flex items-center space-x-1">
                 <UserCheck size={14} className="text-slate-400" />
                 <span>Choose service provider</span>
               </label>
+              
               {providers.length === 0 ? (
-                <div className="bg-red-50 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/50 p-4 rounded-2xl text-xs text-red-700 dark:text-red-400 flex items-center space-x-2">
+                <div className="bg-red-50/80 dark:bg-red-950/20 border border-red-200/50 dark:border-red-900/50 p-4 rounded-2xl text-xs text-red-700 dark:text-red-400 flex items-center space-x-2 backdrop-blur-md">
                   <AlertCircle size={18} />
                   <span>No verified professionals are currently registered for this category. Check back soon!</span>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 gap-2.5">
+                <div className="grid grid-cols-1 gap-3">
                   {providers.map((p) => (
                     <label
                       key={p._id}
                       className={`relative flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
                         selectedProvider === p.userId._id
-                          ? 'border-primary-500 bg-primary-50/20 dark:bg-primary-950/20'
-                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/30'
+                          ? 'border-primary-500 bg-primary-50/20 dark:bg-primary-950/20 ring-2 ring-primary-500/10'
+                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50/60 dark:hover:bg-slate-850/30'
                       }`}
                     >
                       <input
@@ -149,18 +154,18 @@ const BookService = () => {
                         onChange={() => setSelectedProvider(p.userId._id)}
                         className="sr-only"
                       />
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center space-x-3.5">
                         <img
                           src={p.userId.profileImage || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(p.userId.name)}`}
                           alt={p.userId.name}
-                          className="w-10 h-10 rounded-full object-cover"
+                          className="w-10 h-10 rounded-full object-cover border border-slate-200 dark:border-slate-700 shadow-sm"
                         />
                         <div>
                           <p className="text-sm font-bold text-slate-800 dark:text-slate-200">{p.userId.name}</p>
-                          <p className="text-xs text-slate-400">Experience: {p.experience} Years</p>
+                          <p className="text-xs text-slate-400 font-medium">Experience: {p.experience} Years</p>
                         </div>
                       </div>
-                      <div className="flex items-center space-x-1 text-amber-500 text-xs font-bold bg-amber-50 dark:bg-amber-950/30 px-2 py-1 rounded-md">
+                      <div className="flex items-center space-x-1 text-amber-500 text-xs font-bold bg-amber-50 dark:bg-amber-950/30 px-2 py-1 rounded-lg border border-amber-200/20 shadow-sm">
                         <Star size={12} fill="currentColor" />
                         <span>{p.rating.toFixed(1)}</span>
                       </div>
@@ -172,7 +177,7 @@ const BookService = () => {
 
             {/* Step 2: Select Date & Time */}
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
+              <label className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-wider flex items-center space-x-1">
                 <Calendar size={14} className="text-slate-400" />
                 <span>Date & Time</span>
               </label>
@@ -181,13 +186,13 @@ const BookService = () => {
                 required
                 value={bookingDate}
                 onChange={(e) => setBookingDate(e.target.value)}
-                className="w-full bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-primary-500 text-slate-800 dark:text-white"
+                className="w-full bg-white/75 dark:bg-dark-950/80 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none text-slate-800 dark:text-white form-input-focus"
               />
             </div>
 
             {/* Step 3: Confirm Address */}
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
+              <label className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-wider flex items-center space-x-1">
                 <MapPin size={14} className="text-slate-400" />
                 <span>Service Delivery Address</span>
               </label>
@@ -197,13 +202,13 @@ const BookService = () => {
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
                 placeholder="Street Address, Apt, City, State"
-                className="w-full bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-primary-500 text-slate-800 dark:text-white"
+                className="w-full bg-white/75 dark:bg-dark-950/80 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none text-slate-800 dark:text-white form-input-focus"
               />
             </div>
 
             {/* Step 4: Booking Notes */}
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center space-x-1">
+              <label className="text-xs font-bold text-slate-450 dark:text-slate-500 uppercase tracking-wider flex items-center space-x-1">
                 <Notebook size={14} className="text-slate-400" />
                 <span>Notes & Instructions</span>
               </label>
@@ -212,14 +217,14 @@ const BookService = () => {
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Provide special instructions, parking alerts, or details of the repair needed..."
-                className="w-full bg-slate-50 dark:bg-dark-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none focus:border-primary-500 text-slate-800 dark:text-white"
+                className="w-full bg-white/75 dark:bg-dark-950/80 border border-slate-200 dark:border-slate-800 rounded-xl p-3.5 text-sm focus:outline-none text-slate-800 dark:text-white form-input-focus"
               />
             </div>
 
             <button
               type="submit"
               disabled={submitting || providers.length === 0}
-              className="w-full bg-gradient-to-r from-primary-600 to-accent-600 hover:from-primary-700 hover:to-accent-700 disabled:opacity-50 text-white font-bold py-3.5 rounded-xl shadow-lg transition-all flex items-center justify-center text-sm"
+              className="w-full btn-neon py-3.5 flex items-center justify-center text-sm mt-4 disabled:opacity-55"
             >
               {submitting ? 'Confirming booking...' : 'Confirm Appointment'}
             </button>
@@ -228,7 +233,7 @@ const BookService = () => {
 
         {/* Right column: Service details overview */}
         <div className="space-y-4">
-          <div className="bg-white dark:bg-dark-900 rounded-3xl border border-slate-200/50 dark:border-slate-800/80 overflow-hidden shadow-sm">
+          <div className="glass-card bg-white/70 dark:bg-dark-900/60 rounded-[2rem] border border-slate-200/40 dark:border-slate-850 overflow-hidden shadow-md">
             <img
               src={service.image || 'https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=500&auto=format&fit=crop&q=60'}
               alt={service.title}
@@ -236,25 +241,25 @@ const BookService = () => {
             />
             <div className="p-6 space-y-4">
               <div className="space-y-1">
-                <span className="text-[10px] font-bold bg-primary-100 dark:bg-primary-950/80 text-primary-600 dark:text-primary-400 px-2 py-0.5 rounded">
+                <span className="text-[10px] font-bold bg-primary-100 dark:bg-primary-950/80 text-primary-600 dark:text-primary-400 px-2.5 py-1 rounded-lg uppercase tracking-wider">
                   {service.category}
                 </span>
-                <h3 className="font-heading font-extrabold text-lg text-slate-900 dark:text-white pt-1">
+                <h3 className="font-heading font-extrabold text-lg text-slate-900 dark:text-white pt-2">
                   {service.title}
                 </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed font-medium">
                   {service.description}
                 </p>
               </div>
 
-              <div className="border-t border-slate-100 dark:border-slate-800 pt-4 flex justify-between items-center text-slate-600 dark:text-slate-350">
+              <div className="border-t border-slate-150/40 dark:border-slate-850/50 pt-4 flex justify-between items-center text-slate-600 dark:text-slate-350">
                 <div className="flex items-center space-x-1 text-sm font-semibold">
                   <Clock size={16} className="text-slate-400" />
                   <span>{service.duration}</span>
                 </div>
                 <div className="text-right">
-                  <p className="text-xs text-slate-400">Fixed Fare</p>
-                  <p className="text-xl font-extrabold text-slate-900 dark:text-white">${service.price}</p>
+                  <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Fixed Fare</p>
+                  <p className="text-xl font-extrabold text-slate-900 dark:text-white mt-0.5">${service.price}</p>
                 </div>
               </div>
             </div>
